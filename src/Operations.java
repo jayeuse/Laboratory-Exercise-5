@@ -11,39 +11,61 @@ public class Operations {
     String filler;
 
     public void showTree() {
-        System.out.println("Show the Tree");
-        // An array list of sample values to be inserted into the tree
+        try {
+            System.out.println("Show the Tree");
+            // An array list of sample values to be inserted into the tree
 
-        int[] values = {50, 45, 37, 32, 20, 35, 47,
-                55, 51, 53, 64, 60, 68};
+            int[] values = {50, 45, 37, 32, 20, 35, 47,
+                    55, 51, 53, 64, 60, 68};
 
-        for(int i = 0; i < values.length -1; i++){
-            displayTree.insert(values[i]);
+            for (int value : values) {
+                displayTree.insert(value);
+            }
+
+            // Create a GUI window
+            JFrame frame = new JFrame("Binary Search Tree Visualization");
+            TreePanel panel = new TreePanel(displayTree);
+
+            frame.add(panel);
+            frame.setSize(800, 600);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setVisible(true);
+        } catch (Exception e) {
+            System.err.println("Error displaying tree: " + e.getMessage());
+            e.printStackTrace();
         }
-
-        // Create a GUI window
-        JFrame frame = new JFrame("Binary Search Tree Visualization");
-        TreePanel panel = new TreePanel(displayTree);
-
-        frame.add(panel);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
     }
 
     public void insertNode() {
-        System.out.println("Insert Node");
+        try {
+            System.out.println("Insert Node");
+            System.out.print("Enter value to insert: ");
+            int value = sc.nextInt();
+            displayTree.insert(value);
+            System.out.println("Node inserted successfully.");
+        } catch (InputMismatchException e) {
+            System.err.println("Invalid input. Please enter a valid integer.");
+            sc.nextLine(); // Clear the invalid input
+        } catch (Exception e) {
+            System.err.println("Error inserting node: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void deleteNode() {
-        System.out.println("Delete Node");
+        try {
+            System.out.println("Delete Node");
+            // Implement delete functionality here
+        } catch (Exception e) {
+            System.err.println("Error deleting node: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void traverseNode() {
         System.out.println("Traverse Node");
         do {
-
-            try{
+            try {
                 clearScreen(true);
                 traverseMenuScreen();
                 System.out.println("1. InOrder Traversal");
@@ -78,17 +100,18 @@ public class Operations {
                         clearScreen(false);
                         break;
                 }
-
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.err.println("Invalid input. Please enter a number.");
                 clearScreen(false);
                 sc.nextLine();
+            } catch (Exception e) {
+                System.err.println("Error during traversal: " + e.getMessage());
+                e.printStackTrace();
             }
-
         } while (true);
     }
 
-    public void traverseMenuScreen(){
+    public void traverseMenuScreen() {
         System.out.println("=====================================");
         System.out.println("*                                   *");
         System.out.println("*           Tree Traversal          *");
@@ -101,17 +124,22 @@ public class Operations {
     }
 
     public void preOrderTraversal() {
-        if (displayTree.root == null) {
-            System.out.println("------------------------");
-            System.out.println("THE TREE IS EMPTY");
-            System.out.println("------------------------\n");
-            return;
-        }
+        try {
+            if (displayTree.root == null) {
+                System.out.println("------------------------");
+                System.out.println("THE TREE IS EMPTY");
+                System.out.println("------------------------\n");
+                return;
+            }
 
-        System.out.print("\nPreOrder Traversal: ");
-        preOrderMethod(displayTree.root);
-        System.out.println();
-        System.out.println();
+            System.out.print("\nPreOrder Traversal: ");
+            preOrderMethod(displayTree.root);
+            System.out.println();
+            System.out.println();
+        } catch (Exception e) {
+            System.err.println("Error during pre-order traversal: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void preOrderMethod(Node node) {
@@ -125,17 +153,22 @@ public class Operations {
     }
 
     public void inorderTraversal() {
-        if (displayTree.root == null) {
-            System.out.println("------------------------");
-            System.out.println("THE TREE IS EMPTY");
-            System.out.println("------------------------\n");
-            return;
-        }
+        try {
+            if (displayTree.root == null) {
+                System.out.println("------------------------");
+                System.out.println("THE TREE IS EMPTY");
+                System.out.println("------------------------\n");
+                return;
+            }
 
-        System.out.print("\nInOrder Traversal: ");
-        inOrderMethod(displayTree.root);
-        System.out.println();
-        System.out.println();
+            System.out.print("\nInOrder Traversal: ");
+            inOrderMethod(displayTree.root);
+            System.out.println();
+            System.out.println();
+        } catch (Exception e) {
+            System.err.println("Error during in-order traversal: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void inOrderMethod(Node node) {
@@ -147,17 +180,22 @@ public class Operations {
     }
 
     public void postOrderTraversal() {
-        if (displayTree.root == null) {
-            System.out.println("------------------------");
-            System.out.println("THE TREE IS EMPTY");
-            System.out.println("------------------------\n");
-            return;
-        }
+        try {
+            if (displayTree.root == null) {
+                System.out.println("------------------------");
+                System.out.println("THE TREE IS EMPTY");
+                System.out.println("------------------------\n");
+                return;
+            }
 
-        System.out.print("\nPostOrder Traversal: ");
-        postOrderMethod(displayTree.root);
-        System.out.println();
-        System.out.println();
+            System.out.print("\nPostOrder Traversal: ");
+            postOrderMethod(displayTree.root);
+            System.out.println();
+            System.out.println();
+        } catch (Exception e) {
+            System.err.println("Error during post-order traversal: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void postOrderMethod(Node node) {
@@ -170,7 +208,7 @@ public class Operations {
         System.out.print(node.value + " ");
     }
 
-    public void clearScreen(boolean autoProceed){
+    public void clearScreen(boolean autoProceed) {
         try {
             if (!autoProceed) {
                 System.out.println("Enter to Continue");
@@ -183,6 +221,7 @@ public class Operations {
                 System.out.flush();
             }
         } catch (Exception e) {
+            System.err.println("Error clearing screen: " + e.getMessage());
             e.printStackTrace();
         }
     }
