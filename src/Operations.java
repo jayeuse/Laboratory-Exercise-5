@@ -209,4 +209,62 @@ class TreePanel extends JPanel {
             bst.drawTree(g, bst.root, getWidth() / 2, 50, getWidth() / 4, 50);
         }
     }
+    Class BST {
+     static class Node{
+        int data;
+        Node left;
+        Node right;
+        Node(int data){
+            this.data = data;
+            left = null;
+            right = null;
+        }
+     }
+     Node root;
+     public BST(){
+         root = null;
+     }
+        public boolean insert(int data){
+            root = insertRec(root, data);
+            return root != null;
+        }
+        private Node insertRec(Node, root, int data){
+            if(root == null){
+                root = new Node(data);
+                return root;
+            }
+            if(data < root.data){
+                root.left = insertRec(root.left, data);
+            }else if (data > root.data){
+                root.right = insertRec(root.right, data);
+            }else{
+                return null;
+            }return root;
+
+            }public void insertValue(){
+            Scanner sc = new Scanner(System.in);
+            boleean flag = false;
+            while (!flag){
+                System.out.println("Enter Value to Insert:");
+                int value = sc.nextInt();
+            }if(insert(value)){
+                System.out.println("Value " + value + " inserted successfuly");
+                inserted = true;
+            }else {
+                System.out.println("Value " + value + " already exists in the tree/BST");
+                System.out.println("Try Again (Y/N)?");
+            }
+            char retryChoice = sc.next().charAt(0);
+            if(retryChoice == 'N' || retryChoice == 'n'){
+                System.out.println("Returning to Main Menu");
+                break;
+
+        }
+}   
+    }
 }
+ public class BSTInsertion {
+    public static void main() {
+        Operations operations = new Operations();
+        operations.showTree();
+    }
