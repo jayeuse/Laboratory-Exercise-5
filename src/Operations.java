@@ -12,11 +12,13 @@ public class Operations {
 
     public void showTree() {
         System.out.println("Show the Tree");
-        // Sample values (This should be replaced with the values from the user)
+        // An array list of sample values to be inserted into the tree
+
         int[] values = {50, 45, 37, 32, 20, 35, 47,
                 55, 51, 53, 64, 60, 68};
-        for (int value : values) {
-            displayTree.insert(value);
+
+        for(int i = 0; i < values.length -1; i++){
+            displayTree.insert(values[i]);
         }
 
         // Create a GUI window
@@ -44,24 +46,27 @@ public class Operations {
             try{
                 clearScreen(true);
                 traverseMenuScreen();
+                System.out.println("1. InOrder Traversal");
+                System.out.println("2. PreOrder Traversal");
+                System.out.println("3. PostOrder Traversal");
                 System.out.print("Enter choice: ");
                 char choice = sc.nextLine().charAt(0);
                 switch (choice) {
                     case '1':
                         System.out.println("*************************************");
-                        traverseInOrder();
+                        inorderTraversal();
                         System.out.println("*************************************");
                         clearScreen(false);
                         break;
                     case '2':
                         System.out.println("*************************************");
-                        traversePreOrder();
+                        preOrderTraversal();
                         System.out.println("*************************************");
                         clearScreen(false);
                         break;
                     case '3':
                         System.out.println("*************************************");
-                        traversePostOrder();
+                        postOrderTraversal();
                         System.out.println("*************************************");
                         clearScreen(false);
                         break;
@@ -95,28 +100,83 @@ public class Operations {
         System.out.println("=====================================");
     }
 
-    public void traversePreOrder() {
-        System.out.println("Traverse Pre Order");
+    public void preOrderTraversal() {
+        if (displayTree.root == null) {
+            System.out.println("------------------------");
+            System.out.println("THE TREE IS EMPTY");
+            System.out.println("------------------------\n");
+            return;
+        }
+
+        System.out.print("\nPreOrder Traversal: ");
+        preOrderMethod(displayTree.root);
+        System.out.println();
+        System.out.println();
     }
 
-    public void traverseInOrder() {
-        System.out.println("Traverse In Order");
+    public void preOrderMethod(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        System.out.print(node.value + " ");
+        preOrderMethod(node.left);
+        preOrderMethod(node.right);
     }
 
-    public void traversePostOrder() {
-        System.out.println("Traverse Post Order");
+    public void inorderTraversal() {
+        if (displayTree.root == null) {
+            System.out.println("------------------------");
+            System.out.println("THE TREE IS EMPTY");
+            System.out.println("------------------------\n");
+            return;
+        }
+
+        System.out.print("\nInOrder Traversal: ");
+        inOrderMethod(displayTree.root);
+        System.out.println();
+        System.out.println();
+    }
+
+    private void inOrderMethod(Node node) {
+        if (node != null) {
+            inOrderMethod(node.left);
+            System.out.print(node.value + " ");
+            inOrderMethod(node.right);
+        }
+    }
+
+    public void postOrderTraversal() {
+        if (displayTree.root == null) {
+            System.out.println("------------------------");
+            System.out.println("THE TREE IS EMPTY");
+            System.out.println("------------------------\n");
+            return;
+        }
+
+        System.out.print("\nPostOrder Traversal: ");
+        postOrderMethod(displayTree.root);
+        System.out.println();
+        System.out.println();
+    }
+
+    public void postOrderMethod(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        postOrderMethod(node.left);
+        postOrderMethod(node.right);
+        System.out.print(node.value + " ");
     }
 
     public void clearScreen(boolean autoProceed){
-
         try {
-
             if (!autoProceed) {
                 System.out.println("Enter to Continue");
                 filler = sc.nextLine();
             }
             if (System.getProperty("os.name").contains("Windows")) {
-
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             } else {
                 System.out.print("\033[H\033[2J");
@@ -127,8 +187,6 @@ public class Operations {
         }
     }
 }
-
-
 
 class Node {
     int value;
@@ -143,7 +201,6 @@ class Node {
 class BinarySearchTree {
     Node root;
 
-    // Insert a value into the BST
     void insert(int value) {
         root = insertRec(root, value);
     }
@@ -160,39 +217,34 @@ class BinarySearchTree {
         return root;
     }
 
-    // Draw the tree with improved formatting
     void drawTree(Graphics g, Node root, int x, int y, int xOffset, int yOffset) {
         if (root == null) {
             return;
         }
 
-        // Draw left subtree
         if (root.left != null) {
             int childX = x - xOffset;
             int childY = y + yOffset;
             g.setColor(Color.BLACK);
-            g.drawLine(x, y, childX, childY); // Line to left child
-            drawTree(g, root.left, childX, childY, xOffset / 2, yOffset); // Recursively draw left subtree
+            g.drawLine(x, y, childX, childY);
+            drawTree(g, root.left, childX, childY, xOffset / 2, yOffset);
         }
 
-        // Draw right subtree
         if (root.right != null) {
             int childX = x + xOffset;
             int childY = y + yOffset;
             g.setColor(Color.BLACK);
-            g.drawLine(x, y, childX, childY); // Line to right child
-            drawTree(g, root.right, childX, childY, xOffset / 2, yOffset); // Recursively draw right subtree
+            g.drawLine(x, y, childX, childY);
+            drawTree(g, root.right, childX, childY, xOffset / 2, yOffset);
         }
 
-        // Draw current node
         g.setColor(Color.BLUE);
-        g.fillOval(x - 15, y - 15, 30, 30); // Draw the node circle
+        g.fillOval(x - 15, y - 15, 30, 30);
         g.setColor(Color.WHITE);
-        g.drawString(Integer.toString(root.value), x - 7, y + 5); // Draw the node's value inside the circle
+        g.drawString(Integer.toString(root.value), x - 7, y + 5);
     }
 }
 
-// Panel to display the tree
 class TreePanel extends JPanel {
     private final BinarySearchTree bst;
 
