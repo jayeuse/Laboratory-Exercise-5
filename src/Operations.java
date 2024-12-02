@@ -12,7 +12,7 @@ public class Operations {
 
     public void showTree() {
         System.out.println("Show the Tree");
-        // Sample values (This should be replaced with the values from the user)
+        // Sample values (This should be replaced with the values from the user
         int[] values = {50, 45, 37, 32, 20, 35, 47,
                 55, 51, 53, 64, 60, 68};
         for (int value : values) {
@@ -190,6 +190,20 @@ class BinarySearchTree {
         g.setColor(Color.WHITE);
         g.drawString(Integer.toString(root.value), x - 7, y + 5); // Draw the node's value inside the circle
     }
+    
+}
+
+// Method to insert values into the tree
+public int[] insertValues(){
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Enter the number of values to insert:");
+    int n = sc.nextInt();
+    int[] values = new int[n];
+    for (int i = 0; i < n; i++){
+        System.out.println("Enter value " + (i + 1) + ":");
+        values[i] = sc.nextInt();
+    }
+    return values;
 }
 
 // Panel to display the tree
@@ -209,62 +223,6 @@ class TreePanel extends JPanel {
             bst.drawTree(g, bst.root, getWidth() / 2, 50, getWidth() / 4, 50);
         }
     }
-    Class BST {
-     static class Node{
-        int data;
-        Node left;
-        Node right;
-        Node(int data){
-            this.data = data;
-            left = null;
-            right = null;
-        }
-     }
-     Node root;
-     public BST(){
-         root = null;
-     }
-        public boolean insert(int data){
-            root = insertRec(root, data);
-            return root != null;
-        }
-        private Node insertRec(Node, root, int data){
-            if(root == null){
-                root = new Node(data);
-                return root;
-            }
-            if(data < root.data){
-                root.left = insertRec(root.left, data);
-            }else if (data > root.data){
-                root.right = insertRec(root.right, data);
-            }else{
-                return null;
-            }return root;
-
-            }public void insertValue(){
-            Scanner sc = new Scanner(System.in);
-            boleean flag = false;
-            while (!flag){
-                System.out.println("Enter Value to Insert:");
-                int value = sc.nextInt();
-            }if(insert(value)){
-                System.out.println("Value " + value + " inserted successfuly");
-                inserted = true;
-            }else {
-                System.out.println("Value " + value + " already exists in the tree/BST");
-                System.out.println("Try Again (Y/N)?");
-            }
-            char retryChoice = sc.next().charAt(0);
-            if(retryChoice == 'N' || retryChoice == 'n'){
-                System.out.println("Returning to Main Menu");
-                break;
-
-        }
-}   
-    }
+    
+    
 }
- public class BSTInsertion {
-    public static void main() {
-        Operations operations = new Operations();
-        operations.showTree();
-    }
