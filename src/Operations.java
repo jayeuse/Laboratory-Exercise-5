@@ -193,19 +193,6 @@ class BinarySearchTree {
     
 }
 
-// Method to insert values into the tree
-public int[] insertValues(){
-    Scanner sc = new Scanner(System.in);
-    System.out.println("Enter the number of values to insert:");
-    int n = sc.nextInt();
-    int[] values = new int[n];
-    for (int i = 0; i < n; i++){
-        System.out.println("Enter value " + (i + 1) + ":");
-        values[i] = sc.nextInt();
-    }
-    return values;
-}
-
 // Panel to display the tree
 class TreePanel extends JPanel {
     private final BinarySearchTree bst;
