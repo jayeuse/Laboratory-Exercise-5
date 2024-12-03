@@ -38,11 +38,7 @@ public class Operations {
 
     public void insertNode() {
         try {
-            System.out.println("Insert Node");
-            System.out.print("Enter value to insert: ");
-            int value = sc.nextInt();
-            displayTree.insert(value);
-            System.out.println("Node inserted successfully.");
+            //Insert logic
         } catch (InputMismatchException e) {
             System.err.println("Invalid input. Please enter a valid integer.");
             sc.nextLine(); // Clear the invalid input
@@ -71,24 +67,25 @@ public class Operations {
                 System.out.println("1. InOrder Traversal");
                 System.out.println("2. PreOrder Traversal");
                 System.out.println("3. PostOrder Traversal");
+                System.out.println("4. Exit");
                 System.out.print("Enter choice: ");
                 char choice = sc.nextLine().charAt(0);
                 switch (choice) {
                     case '1':
                         System.out.println("*************************************");
-                        inorderTraversal();
+                        inorderTraversal(displayTree.root);
                         System.out.println("*************************************");
                         clearScreen(false);
                         break;
                     case '2':
                         System.out.println("*************************************");
-                        preOrderTraversal();
+                        preOrderTraversal(displayTree.root);
                         System.out.println("*************************************");
                         clearScreen(false);
                         break;
                     case '3':
                         System.out.println("*************************************");
-                        postOrderTraversal();
+                        postOrderTraversal(displayTree.root);
                         System.out.println("*************************************");
                         clearScreen(false);
                         break;
@@ -123,89 +120,58 @@ public class Operations {
         System.out.println("=====================================");
     }
 
-    public void preOrderTraversal() {
-        try {
-            if (displayTree.root == null) {
-                System.out.println("------------------------");
-                System.out.println("THE TREE IS EMPTY");
-                System.out.println("------------------------\n");
-                return;
-            }
-
-            System.out.print("\nPreOrder Traversal: ");
-            preOrderMethod(displayTree.root);
-            System.out.println();
-            System.out.println();
-        } catch (Exception e) {
-            System.err.println("Error during pre-order traversal: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void preOrderMethod(Node node) {
-        if (node == null) {
+    private void preOrderTraversal(Node root) {
+        if (root == null) {
+            System.out.println("\nThe tree is empty. Cannot perform traversal.");
             return;
         }
-
-        System.out.print(node.value + " ");
-        preOrderMethod(node.left);
-        preOrderMethod(node.right);
+        System.out.print("Preorder traversal: ");
+        preorderMethod(root);
+        System.out.println();
     }
 
-    public void inorderTraversal() {
-        try {
-            if (displayTree.root == null) {
-                System.out.println("------------------------");
-                System.out.println("THE TREE IS EMPTY");
-                System.out.println("------------------------\n");
-                return;
-            }
-
-            System.out.print("\nInOrder Traversal: ");
-            inOrderMethod(displayTree.root);
-            System.out.println();
-            System.out.println();
-        } catch (Exception e) {
-            System.err.println("Error during in-order traversal: " + e.getMessage());
-            e.printStackTrace();
+    private static void preorderMethod(Node root) {
+        if (root != null) {
+            System.out.print(root.value + " ");
+            preorderMethod(root.left);
+            preorderMethod(root.right);
         }
     }
 
-    private void inOrderMethod(Node node) {
-        if (node != null) {
-            inOrderMethod(node.left);
-            System.out.print(node.value + " ");
-            inOrderMethod(node.right);
-        }
-    }
-
-    public void postOrderTraversal() {
-        try {
-            if (displayTree.root == null) {
-                System.out.println("------------------------");
-                System.out.println("THE TREE IS EMPTY");
-                System.out.println("------------------------\n");
-                return;
-            }
-
-            System.out.print("\nPostOrder Traversal: ");
-            postOrderMethod(displayTree.root);
-            System.out.println();
-            System.out.println();
-        } catch (Exception e) {
-            System.err.println("Error during post-order traversal: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void postOrderMethod(Node node) {
-        if (node == null) {
+    private void inorderTraversal(Node root) {
+        if (root == null) {
+            System.out.println("\nThe tree is empty. Cannot perform traversal.");
             return;
         }
+        System.out.print("Inorder traversal: ");
+        inorderMethod(root);
+        System.out.println();
+    }
 
-        postOrderMethod(node.left);
-        postOrderMethod(node.right);
-        System.out.print(node.value + " ");
+    private static void inorderMethod(Node root) {
+        if (root != null) {
+            inorderMethod(root.left);
+            System.out.print(root.value + " ");
+            inorderMethod(root.right);
+        }
+    }
+
+    private void postOrderTraversal(Node root) {
+        if (root == null) {
+            System.out.println("\nThe tree is empty. Cannot perform traversal.");
+            return;
+        }
+        System.out.print("Postorder traversal: ");
+        postOrderMethod(root);
+        System.out.println();
+    }
+
+    private static void postOrderMethod(Node root) {
+        if (root != null) {
+            postOrderMethod(root.left);
+            postOrderMethod(root.right);
+            System.out.print(root.value + " ");
+        }
     }
 
     public void clearScreen(boolean autoProceed) {
