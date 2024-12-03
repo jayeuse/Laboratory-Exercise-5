@@ -209,4 +209,121 @@ class TreePanel extends JPanel {
             bst.drawTree(g, bst.root, getWidth() / 2, 50, getWidth() / 4, 50);
         }
     }
+    import java.util.Scanner;
+
+class Node {
+    int data;
+    Node left, right;
+
+    public Node(int item) {
+        data = item;
+        left = right = null;
+    }
+}
+
+class BST {
+    Node root;
+
+    BST() {
+        root = null;
+    }
+
+    void insert(int key) {
+        root = insertRec(root, key);
+    }
+
+    Node insertRec(Node root, int key) {
+        if (root == null) {
+            root = new Node(key);
+            return root;
+        }
+        if (key < root.data) {
+            root.left = insertRec(root.left, key);
+        } else if (key > root.data) {
+            root.right = insertRec(root.right, key);
+        }
+        return root; // No duplicates allowed
+    }
+
+    Node deleteNode(Node root, int key) {
+        if (root == null) {
+            return root; // Key not found
+        }
+        if (key < root.data) {
+            root.left = deleteNode(root.left, key);
+        } else if (key > root.data) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            // Node with only one child or no child
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            }
+
+            // Node with two children: Get the inorder successor
+            root.data = minValue(root.right);
+            root.right = deleteNode(root.right, root.data);
+        }
+        return root;
+    }
+
+    int minValue(Node root) {
+        int minValue = root.data;
+        while (root.left != null) {
+            minValue = root.left.data;
+            root = root.left;
+        }
+        return minValue;
+    }
+
+    boolean contains(Node root, int key) {
+        if (root == null) {
+            return false;
+        }
+        if (key == root.data) {
+            return true;
+        }
+        return key < root.data ? contains(root.left, key) : contains(root.right, key);
+    }
+}
+
+public class Main {
+    public static void main() {
+        Scanner scanner = new Scanner(System.in);
+        BST bst = new BST();
+        boolean continueInput = true;
+
+        // Insert some initial values for testing
+        bst.insert(50);
+        bst.insert(30);
+        bst.insert(70);
+        bst.insert(20);
+        bst.insert(40);
+        bst.insert(60);
+        bst.insert(80);
+
+        while (continueInput) {
+            System.out.print("Enter Value to Delete: ");
+            int value = scanner.nextInt();
+
+            if (bst.contains(bst.root, value)) {
+                bst.root = bst.deleteNode(bst.root, value);
+                System.out.println(value + " Successfully Deleted!");
+            } else {
+                System.out.println("Error: Value not found in the BST.");
+            }
+
+            System.out.print("Try Again (Y/N)? ");
+            char choice = scanner.next().charAt(0);
+            if (choice == 'N' || choice == 'n') {
+                continueInput = false;
+            }
+        }
+
+        System.out.println("Exiting the program. Thank you!");
+        scanner.close();
+            }
+        }
+    }
 }
