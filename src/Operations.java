@@ -52,25 +52,11 @@ public class Operations {
     }
 
     public void insertNode() {
-        try {
-            //Insert logic
-        } catch (InputMismatchException e) {
-            System.err.println("Invalid input. Please enter a valid integer.");
-            sc.nextLine(); // Clear the invalid input
-        } catch (Exception e) {
-            System.err.println("Error inserting node: " + e.getMessage());
-            e.printStackTrace();
-        }
+        System.out.println("Insert Node");
     }
 
     public void deleteNode() {
-        try {
-            System.out.println("Delete Node");
-            // Implement delete functionality here
-        } catch (Exception e) {
-            System.err.println("Error deleting node: " + e.getMessage());
-            e.printStackTrace();
-        }
+        System.out.println("Delete Node");
     }
 
     public void traverseNode() {
