@@ -53,10 +53,54 @@ public class Operations {
 
     public void insertNode() {
         System.out.println("Insert Node");
+
+        while (true){
+
+            System.out.print("Enter Value to Insert: ");
+            int value = sc.nextInt();
+
+            if (displayTree.contains(value)) {
+                System.out.println("Error: Value  already exists in the tree.");
+                System.out.print("Try Again (Y/N)? ");
+                char retry = sc.next().toUpperCase().charAt(0);
+                if (retry == 'N') {
+                    return;
+                }
+
+            } else {
+
+                displayTree.insert(value);
+                System.out.println (value + "Successfully Inserted!");
+                return;
+            }
+        }
     }
 
     public void deleteNode() {
+
         System.out.println("Delete Node");
+
+        while (true){
+
+            System.out.print("Enter Value to Delete: ");
+            int value = sc.nextInt();
+
+            if (displayTree.contains(value)){
+                displayTree.delete(value);
+                System.out.println(value + "Successfully Deleted!");
+                return;
+
+            }else {
+
+                System.out.println("Error: Value not found in the tree.");
+                System.out.print("Try Again (Y/N)? ");
+                char retry = sc.next().toUpperCase().charAt(0);
+
+                if (retry == 'N'){
+                    return;
+                }
+            }
+        }
     }
 
     public void traverseNode() {
@@ -211,6 +255,10 @@ class BinarySearchTree {
         root = insertRec(root, value);
     }
 
+    void delete(int value){
+        root = DelRecords(root, value);
+    }
+
     private Node insertRec(Node root, int value) {
         if (root == null) {
             return new Node(value);
@@ -221,6 +269,58 @@ class BinarySearchTree {
             root.right = insertRec(root.right, value);
         }
         return root;
+    }
+
+    boolean contains(int value){
+        return ConRecords(root, value);
+    }
+
+    private boolean ConRecords(Node root, int value){
+
+        if (root == null){
+            return false;
+        }
+        if (value == root.value){
+            return true;
+        } else if (value < root.value){
+            return ConRecords(root.left, value);
+        } else {
+            return ConRecords(root.right, value);
+        }
+    }
+
+    private Node DelRecords (Node root, int value){
+
+        if (root == null){
+        return null;
+        }
+        if (value < root.value){
+            root.left = DelRecords (root.left, value);
+        } else if (value > root.value){
+            root.right = DelRecords (root.right, value);
+        } else {
+            if (root.left == null){
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+        }
+
+        root.value = FindMin(root.right);
+        root.right = DelRecords(root.right, root.value);
+    }
+        return root;
+    }
+
+    private int FindMin(Node root){
+
+        int MinValue = root.value;
+
+        while (root.left != null) {
+            root = root.left;
+            MinValue = root.value;
+        }
+
+        return MinValue;
     }
 
     void drawTree(Graphics g, Node root, int x, int y, int xOffset, int yOffset) {
