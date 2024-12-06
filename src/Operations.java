@@ -34,7 +34,7 @@ public class Operations {
 
         while (true){
             
-            System.out.print("Enter Value to Insert: ")
+            System.out.print("Enter Value to Insert: ");
             int value = sc.nextInt();
 
         if (displayTree.contains(value)) {
@@ -192,6 +192,9 @@ class BinarySearchTree {
     void insert(int value) {
         root = insertRec(root, value);
     }
+    void delete(int value){
+        root = DelRecords(root, value);
+    }
 
     private Node insertRec(Node root, int value) {
         if (root == null) {
@@ -220,6 +223,18 @@ class BinarySearchTree {
         } else {
             return ConRecords(root.right, value)
         }
+    }
+
+    private int FindMin(Node root){
+
+        int MinValue = root.value;
+
+        while (root.life != null) {
+            root = root.left;
+            MinValue = root.value;
+        }
+
+        return MinValue;
     }
     private Node DelRecords (Node root, int value);
         if (root == null){
