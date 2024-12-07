@@ -7,28 +7,39 @@ import java.awt.*;
 public class Operations {
     Scanner sc = new Scanner(System.in);
     BinarySearchTree displayTree = new BinarySearchTree();
+    private boolean isWindowOpen = false;
 
     String filler;
 
     public void showTree() {
+        if (isWindowOpen) {
+            System.out.println("Tree visualization window is already open!");
+            return;
+        }
+
         try {
             System.out.println("Show the Tree");
-            // An array list of sample values to be inserted into the tree
-
-            int[] values = {50, 45, 37, 32, 20, 35, 47,
-                    55, 51, 53, 64, 60, 68};
+            int[] values = {};
 
             for (int value : values) {
                 displayTree.insert(value);
             }
 
-            // Create a GUI window
             JFrame frame = new JFrame("Binary Search Tree Visualization");
             TreePanel panel = new TreePanel(displayTree);
 
             frame.add(panel);
             frame.setSize(800, 600);
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+            frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent e) {
+                    isWindowOpen = false;
+                }
+            });
+
+            isWindowOpen = true;
             frame.setVisible(true);
         } catch (Exception e) {
             System.err.println("Error displaying tree: " + e.getMessage());
@@ -37,24 +48,62 @@ public class Operations {
     }
 
     public void insertNode() {
-        try {
-            //Insert logic
-        } catch (InputMismatchException e) {
-            System.err.println("Invalid input. Please enter a valid integer.");
-            sc.nextLine(); // Clear the invalid input
-        } catch (Exception e) {
-            System.err.println("Error inserting node: " + e.getMessage());
-            e.printStackTrace();
+        System.out.println("Insert Node");
+
+        while (true) {
+            try {
+                System.out.print("Enter Value to Insert: ");
+                int value = sc.nextInt();
+
+                if (displayTree.contains(value)) {
+                    System.out.println("Error: Value already exists in the tree.");
+                    System.out.print("Try Again (Y/N)? ");
+                    char retry = sc.next().toUpperCase().charAt(0);
+                    if (retry == 'N') {
+                        return;
+                    }
+                } else {
+                    displayTree.insert(value);
+                    System.out.println(value + " Successfully Inserted!");
+                    return;
+                }
+            } catch (InputMismatchException e) {
+                System.err.println("Invalid input. Please enter a valid integer.");
+                sc.nextLine(); // Clear the invalid input
+            } catch (Exception e) {
+                System.err.println("Error inserting node: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
     public void deleteNode() {
-        try {
-            System.out.println("Delete Node");
-            // Implement delete functionality here
-        } catch (Exception e) {
-            System.err.println("Error deleting node: " + e.getMessage());
-            e.printStackTrace();
+        System.out.println("Delete Node");
+
+        while (true) {
+            try {
+                System.out.print("Enter Value to Delete: ");
+                int value = sc.nextInt();
+
+                if (displayTree.contains(value)) {
+                    displayTree.delete(value);
+                    System.out.println(value + " Successfully Deleted!");
+                    return;
+                } else {
+                    System.out.println("Error: Value not found in the tree.");
+                    System.out.print("Try Again (Y/N)? ");
+                    char retry = sc.next().toUpperCase().charAt(0);
+                    if (retry == 'N') {
+                        return;
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.err.println("Invalid input. Please enter a valid integer.");
+                sc.nextLine(); // Clear the invalid input
+            } catch (Exception e) {
+                System.err.println("Error deleting node: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
@@ -207,7 +256,21 @@ class BinarySearchTree {
     Node root;
 
     void insert(int value) {
-        root = insertRec(root, value);
+        try {
+            root = insertRec(root, value);
+        } catch (Exception e) {
+            System.err.println("Error inserting value: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    void delete(int value) {
+        try {
+            root = DelRecords(root, value);
+        } catch (Exception e) {
+            System.err.println("Error deleting value: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private Node insertRec(Node root, int value) {
@@ -220,6 +283,61 @@ class BinarySearchTree {
             root.right = insertRec(root.right, value);
         }
         return root;
+    }
+
+    boolean contains(int value) {
+        try {
+            return ConRecords(root, value);
+        } catch (Exception e) {
+            System.err.println("Error checking value: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean ConRecords(Node root, int value) {
+        if (root == null) {
+            return false;
+        }
+        if (value == root.value) {
+            return true;
+        } else if (value < root.value) {
+            return ConRecords(root.left, value);
+        } else {
+            return ConRecords(root.right, value);
+        }
+    }
+
+    private Node DelRecords(Node root, int value) {
+        if (root == null) {
+            return null;
+        }
+        if (value < root.value) {
+            root.left = DelRecords(root.left, value);
+        } else if (value > root.value) {
+            root.right = DelRecords(root.right, value);
+        } else {
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            }
+
+            root.value = FindMin(root.right);
+            root.right = DelRecords(root.right, root.value);
+        }
+        return root;
+    }
+
+    private int FindMin(Node root) {
+        int MinValue = root.value;
+
+        while (root.left != null) {
+            root = root.left;
+            MinValue = root.value;
+        }
+
+        return MinValue;
     }
 
     void drawTree(Graphics g, Node root, int x, int y, int xOffset, int yOffset) {
